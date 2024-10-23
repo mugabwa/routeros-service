@@ -1,0 +1,17 @@
+version: "0.1"
+
+services:
+  router-os-service:
+    build: 
+      context: .
+    container_name: router-os-server
+    hostname: router-os-server
+    ports:
+      - 80:8080
+    environment:
+      - ROUTER_ADDRESS=${ROUTER_ADDRESS:-localhost}
+      - ROUTER_USERNAME=${ROUTER_USERNAME:-admin}
+      - ROUTER_PASSWORD=${ROUTER_PASSWORD:?password not set}
+    deploy:
+      restart_policy:
+        condition: on-failure
