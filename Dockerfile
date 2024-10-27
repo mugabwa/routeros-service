@@ -19,7 +19,7 @@ FROM gcr.io/distroless/static-debian11 AS build-release-stage
 WORKDIR /
 
 COPY --from=build-stage /router-os router-os
-COPY .env .env
+# COPY .env .env
 
 EXPOSE 8080
 
