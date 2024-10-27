@@ -39,6 +39,3 @@ jobs:
             ${{ vars.DOCKER_USERNAME }}/${{ vars.DOCKER_REPOSITORY }}:${{ github.ref_name }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
-      
-      - name: Cleanup .env file
-        run: rm .env
