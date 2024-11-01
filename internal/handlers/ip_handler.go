@@ -7,13 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
-func GetIPAddresses(ctx *gin.Context) {
-	ips, err := services.FetchIPAddresses()
+func (h *Handler) GetIPAddresses(ctx *gin.Context) {
+	ips, err := services.FetchIPAddresses(h.Client)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"ips": ips})
+	ctx.JSON(http.StatusOK, gin.H{"data": ips})
 }
