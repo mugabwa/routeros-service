@@ -4,12 +4,16 @@ import (
 	"router_os/internal/handlers"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-routeros/routeros"
 )
 
-
-func SetupRouter() *gin.Engine {
+func SetupRouter(client *routeros.Client) *gin.Engine {
 	r := gin.Default()
+	handler := &handlers.Handler{Client: client}
 
-	r.GET("/ip", handlers.GetIPAddresses)
+	r.GET("/ip", handler.GetIPAddresses)
+	r.GET("/resources", handler.GetSystemResources)
+	r.GET("/identity", handler.GetSystemIdentity)
+	r.PATCH("/identity", handler.PatchSystemIdentity)
 	return r
 }

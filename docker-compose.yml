@@ -12,6 +12,14 @@ services:
       - ROUTER_ADDRESS=${ROUTER_ADDRESS:-localhost}
       - ROUTER_USERNAME=${ROUTER_USERNAME:-admin}
       - ROUTER_PASSWORD=${ROUTER_PASSWORD:?password not set}
+    env_file:
+      - .env
+    volumes:
+      - ./.env:/.env
     deploy:
       restart_policy:
         condition: on-failure
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512M"

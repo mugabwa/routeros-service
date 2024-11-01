@@ -6,8 +6,9 @@ import (
 	"github.com/go-routeros/routeros"
 )
 
+type M map[string]string
 
-func FetchIPAddresses(client *routeros.Client) ([]string, error) {
+func FetchIPAddresses(client *routeros.Client) ([]M, error) {
 	cmd := "/ip/address/print"
 	res, err := client.Run(cmd)
 	
@@ -16,10 +17,9 @@ func FetchIPAddresses(client *routeros.Client) ([]string, error) {
 		return nil, err
 	}
 
-	var ips []string
+	var ips []M
 	for _, re := range res.Re{
-		ip := re.Map["address"]
-		ips = append(ips, ip)
+		ips = append(ips, re.Map)
 	}
 	return ips, nil
 }
