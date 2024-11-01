@@ -15,5 +15,7 @@ func SetupRouter(client *routeros.Client) *gin.Engine {
 	r.GET("/resources", handler.GetSystemResources)
 	r.GET("/identity", handler.GetSystemIdentity)
 	r.PATCH("/identity", handler.PatchSystemIdentity)
+	r.GET("/dhcp", handler.GetDHCPClients)
+	r.POST("/dhcp", handler.PostDHCPClient)
 	return r
 }
