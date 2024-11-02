@@ -2,6 +2,7 @@ package mikrotik
 
 import (
 	"log"
+	"strings"
 
 	"github.com/go-routeros/routeros"
 )
@@ -42,11 +43,13 @@ func FetchDHCPClient(client *routeros.Client) ([]M, error) {
 
 func AddDHCPClient(client *routeros.Client, payload M) ([]M, error) {
 	cmd := "/ip/dhcp-client/add"
-	str_payload := "="
+	var str_payload string
 	for key, val := range payload {
-		str_data := key + "=" + val + ","
+		str_data := "=" + key + "=" + val + ","
 		str_payload += str_data
 	}
+	str_payload = strings.TrimRight(str_payload, ",")
+	log.Printf("Data: %v", str_payload)
 	resp, err := client.Run(cmd, str_payload)
 
 	if err != nil {
@@ -59,4 +62,15 @@ func AddDHCPClient(client *routeros.Client, payload M) ([]M, error) {
 		data = append(data, re.Map)
 	}
 	return data, nil
+}
+
+func DeleteDHCPClient(client *routeros.Client, id string) error {
+	cmd := "/ip/dhcp-client/remove"
+	param := "=.id="+id
+	_, err := client.Run(cmd, param)
+	if err != nil {
+		log.Printf("Error running command: %v", err)
+		return err
+	}
+	return nil
 }

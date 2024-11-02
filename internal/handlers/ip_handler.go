@@ -9,6 +9,7 @@ import (
 )
 
 type DCHPRequest struct {
+	Id string `json:"id"`
 	AddDefaultRoute string `json:"add-default-route"`
 	Address string `json:"address"`
 	Comment string `json:"comment"`
@@ -55,20 +56,10 @@ func (h *Handler) PostDHCPClient(ctx *gin.Context) {
 	}
 
 	payload := mikrotik.M{
-		"add-default-route": request.AddDefaultRoute,
-      "address": request.Address,
+	  "add-default-route": request.AddDefaultRoute,
       "comment": request.Comment,
-      "default-route-distance": request.DefaultRouteDistance,
-      "dhcp-options": request.DhcpOptions,
-      "dhcp-server": request.DhcpServer,
       "disabled": request.Disabled,
-      "dynamic": request.Dynamic,
-      "expires-after": request.ExpiresAfter,
-      "gateway": request.Gateway,
       "interface": request.Interface,
-      "invalid": request.Invalid,
-      "primary-dns": request.PrimaryDns,
-      "status": request.Status,
       "use-peer-dns": request.UsePeerDns,
       "use-peer-ntp": request.UsePeerNtp,
 	}
@@ -81,4 +72,17 @@ func (h *Handler) PostDHCPClient(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusCreated, gin.H{
 		"data": data})
+}
+
+func (h *Handler) DeleteDHCPClient(ctx *gin.Context) {
+	dhcpId := ctx.Param("id")
+	err := services.DeleteDHCPClient(h.Client, dhcpId)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusAccepted, gin.H{
+		"data": "DCHP record with id %v removed"})
 }

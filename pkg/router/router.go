@@ -17,5 +17,6 @@ func SetupRouter(client *routeros.Client) *gin.Engine {
 	r.PATCH("/identity", handler.PatchSystemIdentity)
 	r.GET("/dhcp", handler.GetDHCPClients)
 	r.POST("/dhcp", handler.PostDHCPClient)
+	r.DELETE("/dhcp/:id", handler.DeleteDHCPClient)
 	return r
 }
