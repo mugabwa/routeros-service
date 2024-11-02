@@ -34,3 +34,12 @@ func AddDHCPClient(client *routeros.Client, payload mikrotik.M) ([]mikrotik.M, e
 	}
 	return data, nil
 }
+
+func DeleteDHCPClient(client *routeros.Client, id string) error {
+	err := mikrotik.DeleteDHCPClient(client, id)
+	if err != nil {
+		log.Printf("Failed to delete DHCP clients: %v with id %v", err, id)
+		return err
+	}
+	return nil
+}
