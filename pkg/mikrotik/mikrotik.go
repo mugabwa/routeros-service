@@ -6,8 +6,6 @@ import (
 	"github.com/go-routeros/routeros"
 )
 
-
-
 func SetupClient(address, username, password string) (*routeros.Client, error) {
 	client, err := routeros.Dial(address, username, password)
 	if err != nil {
