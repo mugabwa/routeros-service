@@ -8,7 +8,7 @@ import (
 )
 
 
-func FetchSystemResourses(client *routeros.Client) ([]mikrotik.M, error) {
+func FetchSystemResourses(client *routeros.Client) (interface{}, error) {
 	data, err := mikrotik.FetchSystemResources(client)
 	if err != nil {
 		log.Printf("Failed to fetch system resources: %v", err)
@@ -17,7 +17,7 @@ func FetchSystemResourses(client *routeros.Client) ([]mikrotik.M, error) {
 	return data, nil
 }
 
-func FetchSystemIdentity(client *routeros.Client) (mikrotik.M, error) {
+func FetchSystemIdentity(client *routeros.Client) (interface{}, error) {
 	data, err := mikrotik.FetchSystemIdentity(client)
 	if err != nil {
 		log.Printf("Failed to fetch system identity: %v", err)

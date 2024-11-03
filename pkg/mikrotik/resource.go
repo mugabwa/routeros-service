@@ -2,11 +2,12 @@ package mikrotik
 
 import (
 	"log"
+	"router_os/utility"
 
 	"github.com/go-routeros/routeros"
 )
 
-func FetchSystemResources(client *routeros.Client) ([]M, error) {
+func FetchSystemResources(client *routeros.Client) (interface{}, error) {
 	cmd := "/system/resource/print"
 	resp, err := client.Run(cmd)
 
@@ -15,14 +16,12 @@ func FetchSystemResources(client *routeros.Client) ([]M, error) {
 		return nil, err
 	}
 
-	var data []M
-	for _, res := range resp.Re{
-		data = append(data, res.Map)
-	}
-	return data, nil
+	data, err := utility.ParseResponse(resp)
+	err = utility.ErrorParser(err)
+	return data, err
 }
 
-func FetchSystemIdentity(client *routeros.Client) (M, error) {
+func FetchSystemIdentity(client *routeros.Client) (interface{}, error) {
 	cmd := "/system/identity/print"
 	resp, err := client.Run(cmd)
 
@@ -31,7 +30,9 @@ func FetchSystemIdentity(client *routeros.Client) (M, error) {
 		return nil, err
 	}
 
-	return resp.Re[len(resp.Re)-1].Map, nil
+	data, err := utility.ParseResponse(resp)
+	err = utility.ErrorParser(err)
+	return data, err
 }
 
 func PatchSystemIdentity(client *routeros.Client, hostname string) error {
